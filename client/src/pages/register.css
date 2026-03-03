@@ -1,0 +1,79 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: rt(circle at center, #071a24, #020d14);
+  color: white;
+}
+
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo-section img {
+  width: 120px;
+}
+
+.logo-section span {
+  color: #00e0ff;
+}
+
+.register-box {
+  background: rgba(0, 20, 30, 0.85);
+  padding: 35px;
+  width: 400px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.register-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.register-box input,
+.register-box select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  background: #102733;
+  border: 1px solid #1f3f4e;
+  border-radius: 6px;
+  color: white;
+}
+
+.register-box input:focus,
+.register-box select:focus {
+  outline: none;
+  border-color: #00e0ff;
+}
+
+.register-box button {
+  width: 100%;
+  padding: 12px;
+  background: #00e0ff;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.register-box button:hover {
+  opacity: 0.9;
+}
+
+.safe-note {
+  margin-top: 15px;
+  font-size: 13px;
+  text-align: center;
+  color: #9bd6e6;
+}

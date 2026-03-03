@@ -1,0 +1,76 @@
+.simulation-container {
+  padding: 40px;
+  color: white;
+}
+
+.card, .email-card {
+  background: rgba(0, 20, 30, 0.8);
+  border: 1px solid rgba(0,255,255,0.3);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.email {
+  margin-top: 20px;
+  background: #0f2b3a;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.link {
+  color: #00e0ff;
+  cursor: pointer;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+button.safe {
+  background: #00e0ff;
+  color: black;
+}
+
+.success {
+  color: #00ff88;
+}
+
+.fail {
+  color: #ff4c4c;
+}
+.attachment {
+  margin-top: 20px;
+  padding: 15px;
+  background: #112c3a;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.attachment-file {
+  color: #00e0ff;
+  font-weight: 500;
+}
+
+.attachment-btn {
+  background: #00e0ff;
+  color: black;
+  padding: 6px 14px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.attachment-btn:hover {
+  background: #00c8e6;
+}
