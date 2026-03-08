@@ -1,11 +1,41 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import CyberNews from "../components/CyberNews";
 
 function DashboardContent() {
   const navigate = useNavigate();
+  const [score, setScore] = useState(0);
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    const fetchScore = async () => {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("http://localhost:5000/api/score", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await res.json();
+      setScore(data.score);
+    };
+
+    fetchScore();
+  }, []);
+  useEffect(() => {
+    fetch("https://api.rss2json.com/v1/api.json?rss_url=https://feeds.feedburner.com/TheHackersNews")
+      .then(res => res.json())
+      .then(data => {
+        setNews(data.items.slice(0,2)); // only 2 news because you have 2 cards
+      });
+  }, []);
+
   return (
     <div className="content">
 
       <h1>Welcome to Cyber<span className="text-cyan-400">Drill!</span></h1>
+      <h2 className="text-xl text-cyan-400">Score: {score}</h2>
       <p className="subtitle">
         Simulated Cyber Attack Training and Defense
       </p>
@@ -47,8 +77,18 @@ function DashboardContent() {
           >Start Challenge</button>
         </div>
 
+        {/* check*/}
+        <div className="card">
+          <h3>Firewall Bypass</h3>
+            <button onClick={() => navigate("/bruteforce")}
+            className="mt-10 px-4 py-2 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
+          >
+              Brute
+            </button>
+        </div>
+
       </div>
-      <div classname="py-4">
+      <div className="py-4">
         <button
           className="mt-4 px-4 py-0 bg-cyan-950 item-center text-black font-semibold rounded hover:bg-cyan-400 transition"
         >
@@ -63,19 +103,23 @@ function DashboardContent() {
       <div className="challenges card-grid">
         <h2>Security News & Updates</h2>
       </div>
-      <div className="card-grid-rows-2 py-4">
-        <div className="card">
-          <h3>LAtest Phishing Tactics Targeting Companies</h3>
-        </div>
 
-        <div className="card">
-          <h3>Zero-Day Exploit Found in Popular Software App</h3>
+      <div className="card-grid-rows-2 py-4">
+
+        {news.map((item, index) => (
+          <div
+            className="card cursor-pointer hover:scale-105 transition"
+            onClick={() => navigate("/news", { state: item })}
+          >
+            <h3>{item.title}</h3>
         </div>
+        ))}
 
       </div>
-      <div>
+      <div className="py-4">
         <button
-          className="mt-4 px-4 py-0 bg-cyan-950 items-center text-black font-semibold rounded hover:bg-cyan-400 transition"
+          onClick={() => window.open("https://thehackernews.com", "_blank")}
+          className="mt-4 px-4 py-0 bg-cyan-950 item-center text-black font-semibold rounded hover:bg-cyan-400 transition"
         >
           Read More
         </button>

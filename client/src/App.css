@@ -63,3 +63,22 @@
 .eye-icon:hover {
   color: #00e0ff;
 }
+.cyber-news{
+  background:#111;
+  padding:15px;
+  border-radius:10px;
+  color:white;
+}
+
+.news-item{
+  margin-bottom:10px;
+}
+
+.news-item a{
+  color:#00ff9c;
+  text-decoration:none;
+}
+
+.news-item a:hover{
+  text-decoration:underline;
+}

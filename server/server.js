@@ -20,7 +20,8 @@ db.serialize(() => {
       username TEXT UNIQUE,
       email TEXT UNIQUE,
       password TEXT,
-      profession TEXT
+      profession TEXT,
+      score INTEGER DEFAULT 0
     )
   `);
 });
@@ -63,7 +64,48 @@ db.get(
     }
   );
 });
+// Get user score
+app.get("/api/score", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ error: "No token" });
 
+  try {
+    const decoded = jwt.verify(token, SECRET);
+
+    db.get(
+      "SELECT score FROM users WHERE id = ?",
+      [decoded.id],
+      (err, user) => {
+        if (!user) return res.status(404).json({ error: "User not found" });
+        res.json({ score: user.score });
+      }
+    );
+  } catch {
+    res.status(401).json({ error: "Invalid token" });
+  }
+});
+// Update score
+app.post("/api/score", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  const { points } = req.body;
+
+  if (!token) return res.status(401).json({ error: "No token" });
+
+  try {
+    const decoded = jwt.verify(token, SECRET);
+
+    db.run(
+      "UPDATE users SET score = score + ? WHERE id = ?",
+      [points, decoded.id],
+      function (err) {
+        if (err) return res.status(500).json({ error: "Update failed" });
+        res.json({ message: "Score updated" });
+      }
+    );
+  } catch {
+    res.status(401).json({ error: "Invalid token" });
+  }
+});
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });

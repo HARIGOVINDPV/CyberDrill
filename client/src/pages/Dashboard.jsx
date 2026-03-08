@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import DashboardContent from "../components/DashboardContent";
 import "./dashboard.css";
+import { useState, useEffect } from "react";
 
 function Dashboard() {
   return (
