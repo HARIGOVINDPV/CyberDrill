@@ -1,6 +1,7 @@
 import logo from "../assets/CyberDrillLogoNoBg.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [user, setUser] = useState("");
@@ -29,9 +30,9 @@ function Navbar() {
 
       </div>
       <div className="nav-links">
-          <a className="active">Dashboard</a>
-          <a>Progress_Tracker</a>
-          <a>Leaderboard</a>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/dashboard/progress">Progress_Tracker</Link>
+          <Link to="/wip">Leaderboard</Link>
         </div>
 
         <div className="user-profile">

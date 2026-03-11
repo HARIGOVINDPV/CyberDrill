@@ -60,7 +60,30 @@ body {
   background: rgba(0, 255, 255, 0.15);
   color: #00e0ff;
 }
+.sidebar a.active{
+  background: #00e5ff;
+  color: black;
+}
+.sidebar ul{
+  list-style: none;
+  padding: 0;
+}
 
+.sidebar li{
+  padding: 12px;
+}
+
+.sidebar a{
+  text-decoration: none;
+  color: white;
+  display: block;
+}
+
+.sidebar a.active{
+  background: #01141e;
+  color: black;
+  border-radius: 8px;
+}
 .content {
   flex: 1;
   padding: 40px;
