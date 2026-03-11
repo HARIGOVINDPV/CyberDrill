@@ -9,6 +9,11 @@ app.use(express.json());
 app.use(cors());
 
 const SECRET = "cyberdrill_secret";
+const attacks = [
+  { id: 1, title: "Spear Phishing", difficulty: "Easy" },
+  { id: 2, title: "BruteForce", difficulty: "Easy" },
+  { id: 3, title: "SQL Injection Attack", difficulty: "Hard" }
+];
 
 // Database setup
 const db = new sqlite3.Database("./cyberdrill.db");
@@ -22,6 +27,16 @@ db.serialize(() => {
       password TEXT,
       profession TEXT,
       score INTEGER DEFAULT 0
+    )
+  `);
+
+  // NEW TABLE FOR ATTACK PROGRESS
+  db.run(`
+    CREATE TABLE IF NOT EXISTS progress (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER,
+      attack_id INTEGER,
+      completed INTEGER DEFAULT 0
     )
   `);
 });
@@ -60,10 +75,41 @@ db.get(
 
       const token = jwt.sign({ id: user.id }, SECRET, { expiresIn: "2h" });
 
-      res.json({ token });
+      res.json({
+        token,
+        userId: user.id
+      });
     }
   );
 });
+
+//progress
+app.get("/api/dashboard/:userId", (req, res) => {
+
+  const userId = req.params.userId;
+
+  db.all(
+    "SELECT attack_id FROM progress WHERE user_id = ? AND completed = 1",
+    [userId],
+    (err, rows) => {
+
+      const completed = rows.map(r => r.attack_id);
+
+      const remaining = attacks.filter(a => !completed.includes(a.id));
+
+      const currentAttack = remaining[0] || null;
+      const upcomingAttack = remaining[1] || null;
+
+      res.json({
+        currentAttack,
+        upcomingAttack
+      });
+
+    }
+  );
+
+});
+
 // Get user score
 app.get("/api/score", (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
@@ -73,7 +119,7 @@ app.get("/api/score", (req, res) => {
     const decoded = jwt.verify(token, SECRET);
 
     db.get(
-      "SELECT score FROM users WHERE id = ?",
+      "SELECT score FROM users1 WHERE id = ?",
       [decoded.id],
       (err, user) => {
         if (!user) return res.status(404).json({ error: "User not found" });
@@ -95,7 +141,7 @@ app.post("/api/score", (req, res) => {
     const decoded = jwt.verify(token, SECRET);
 
     db.run(
-      "UPDATE users SET score = score + ? WHERE id = ?",
+      "UPDATE users1 SET score = score + ? WHERE id = ?",
       [points, decoded.id],
       function (err) {
         if (err) return res.status(500).json({ error: "Update failed" });
@@ -106,6 +152,32 @@ app.post("/api/score", (req, res) => {
     res.status(401).json({ error: "Invalid token" });
   }
 });
+
+app.post("/api/completeAttack", (req, res) => {
+
+  const { userId, attackId } = req.body;
+
+  db.run(
+    "INSERT INTO progress (user_id, attack_id, completed) VALUES (?, ?, 1)",
+    [userId, attackId],
+    function(err){
+
+      if(err){
+        return res.status(500).json({error:"Failed to save progress"});
+      }
+
+      // Add score for completing attack
+      db.run(
+        "UPDATE users1 SET score = score + 100 WHERE id = ?",
+        [userId]
+      );
+
+      res.json({message:"Attack completed and score updated"});
+    }
+  );
+
+});
+
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });

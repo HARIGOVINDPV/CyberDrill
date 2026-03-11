@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CyberNews from "../components/CyberNews";
+import axios from "axios";
 
 function DashboardContent() {
   const navigate = useNavigate();
   const [score, setScore] = useState(0);
   const [news, setNews] = useState([]);
+  const [currentAttack,setCurrentAttack] = useState(null)
+  const [upcomingAttack,setUpcomingAttack] = useState(null)
 
   useEffect(() => {
     const fetchScore = async () => {
@@ -31,10 +34,22 @@ function DashboardContent() {
       });
   }, []);
 
+  useEffect(()=>{
+
+  const userId = localStorage.getItem("userId")
+
+  axios.get(`http://localhost:5000/api/dashboard/${userId}`)
+  .then(res=>{
+      setCurrentAttack(res.data.currentAttack)
+      setUpcomingAttack(res.data.upcomingAttack)
+  })
+
+  },[])
+
   return (
     <div className="content">
 
-      <h1>Welcome to Cyber<span className="text-cyan-400">Drill!</span></h1>
+      <h2 className="text-xl " >Welcome to Cyber<span className="text-cyan-400">Drill!</span></h2>
       <h2 className="text-xl text-cyan-400">Score: {score}</h2>
       <p className="subtitle">
         Simulated Cyber Attack Training and Defense
@@ -42,21 +57,26 @@ function DashboardContent() {
 
       <div className="card-grid py-4 ">
 
+        {currentAttack && (
         <div className="card">
-          <h3>First Attack</h3>
-          <p>Spear Phishing Attack</p>
+          <h3>Current Attack</h3>
+          <p>{currentAttack.title}</p>
+
           <button
-            onClick={() => navigate("/spear-phishing")}
+            onClick={() => navigate(`/${currentAttack.title.toLowerCase().replace(/\s/g,"-")}`)}
             className="mt-10 px-4 py-2 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
           >
             Start
           </button>
         </div>
+        )}
 
         <div className="card">
           <h2>Tips & Guidance</h2>
           <h5>Enhance your cyber defence skills.</h5>
-          <button className="mt-10 px-4 py-0 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition">Get Guidance</button>
+          <button 
+            onClick={() => navigate("/wip")}
+            className="mt-10 px-4 py-0 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition">Get Guidance</button>
         </div>
 
       </div>
@@ -66,24 +86,28 @@ function DashboardContent() {
         <h2>Latest Challenges</h2>
       </div>
       <div className="card-grid rows ">
+
+        {upcomingAttack && (
         <div className="card">
-          <h3>Fake Updates Malware</h3>
-          <button className="mt-10 px-4 py-0 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
-          >Start Challenge</button>
+          <h3>Upcoming Attack</h3>
+          <p>{upcomingAttack.title}</p>
+
+          <button
+            disabled
+            className="mt-10 px-4 py-2 bg-gray-700 text-gray-300 font-semibold rounded"
+          >
+            Locked
+          </button>
         </div>
-        <div className="card">
-          <h3>Firewall Bypass</h3>
-          <button className="mt-10 px-4 py-0 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
-          >Start Challenge</button>
-        </div>
+        )}       
 
         {/* check*/}
         <div className="card">
-          <h3>Firewall Bypass</h3>
+          <h3>BruteForce</h3>
             <button onClick={() => navigate("/bruteforce")}
             className="mt-10 px-4 py-2 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
           >
-              Brute
+              Start
             </button>
         </div>
 
@@ -126,17 +150,19 @@ function DashboardContent() {
       </div>
       <hr className=" section-divider" />
       <div className="challenges card-grid">
-        <h2>Recommended Courses</h2>
+        <h2>Recommended Courses ( ON PROGRESS )</h2>
       </div>
       <div className="card-grid rows">
         <div className="card">
           <h3>Introduction to Cybersecurity</h3>
           <button className="mt-10 px-4 py-0 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
+          onClick={() => navigate("/wip")}
           >Start Course</button>
         </div>
         <div className="card">
           <h3>Web Application Security</h3>
           <button className="mt-10 px-4 py-0 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
+          onClick={() => navigate("/wip")}
           >Start Course</button>
         </div>
 
@@ -144,6 +170,7 @@ function DashboardContent() {
       <div>
         <button
           className="mt-4 px-4 py-0 bg-cyan-950 item-center text-black font-semibold rounded hover:bg-cyan-400 transition"
+          onClick={() => navigate("/wip")}
         >
           View All Courses
         </button>

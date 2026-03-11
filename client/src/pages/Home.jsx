@@ -4,7 +4,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-black text-white relative">
+    <div className="min-h-screen text-white relative">
 
       {/* Background Glow */}
       <div className="absolute w-[2000px] h-[800px] bg-cyan-500/10 rounded-full blur-3xl"></div>

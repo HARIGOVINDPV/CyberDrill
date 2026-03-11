@@ -18,6 +18,7 @@ function Login() {
       });
 
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userId", res.data.userId);;
       navigate("/dashboard");
     } catch (err) {
       alert("Invalid credentials");
@@ -25,7 +26,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center  from-black via-gray-900 to-black relative overflow-hidden">
 
       {/* Background Glow */}
       <div className="absolute w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-3xl"></div>

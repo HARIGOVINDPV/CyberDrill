@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import WorkInProgress from "./pages/WorkInProgress";
 import News from "./pages/News";
 import SpearPhishing from "./pages/SpearPhishing";
 import BruteForce from "./pages/BruteForce";
@@ -14,6 +15,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/wip" element={<WorkInProgress />} />
       <Route path="/news" element={<News />} />
       <Route path="/spear-phishing" element={<SpearPhishing />} />
       <Route path="/bruteforce" element={<BruteForce />} />

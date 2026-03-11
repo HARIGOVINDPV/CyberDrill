@@ -1,8 +1,11 @@
 import SimulationNavbar from "../components/SimulationNavbar";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./simulation.css";
 
 function SpearPhishing() {
+  const navigate = useNavigate();
   const [step, setStep] = useState("briefing");
   const [result, setResult] = useState(null);
 
@@ -25,7 +28,26 @@ function SpearPhishing() {
     setResult("fail");
     setStep("result");
   }
-};
+  };
+
+  const completeAttack = async () => {
+
+    const userId = localStorage.getItem("userId");
+
+    try {
+
+      await axios.post("http://localhost:5000/api/completeAttack", {
+        userId: userId,
+        attackId: 1
+      });
+
+      navigate("/dashboard");
+
+    } catch (err) {
+      console.error("Completion failed", err);
+    }
+
+  };
 
   return (
     <>
@@ -112,6 +134,12 @@ function SpearPhishing() {
                 <li>Urgency pressure</li>
                 <li>Suspicious external link</li>
               </ul>
+              <button
+                onClick={completeAttack}
+                className="mt-10 px-4 py-2 p-2 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
+              >
+                Complete Attack
+              </button>
             </>
           ) : (
             <>
@@ -125,12 +153,15 @@ function SpearPhishing() {
                 <li>Phishing reset page</li>
                 <li>Social engineering tactics</li>
               </ul>
+              <button 
+                onClick={() => setStep("briefing")} 
+                className="mt-10 px-4 py-2 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
+              >
+                Restart Simulation
+              </button>
             </>
           )}
-
-          <button onClick={() => setStep("briefing")} className="mt-10 px-4 py-2 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition">
-            Restart Simulation
-          </button>
+          
         </div>
       )}
 

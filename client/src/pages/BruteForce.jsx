@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import SimulationNavbar from "../components/SimulationNavbar";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function BruteForce() {
-
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(0);
   const [password, setPassword] = useState("");
@@ -26,17 +28,91 @@ function BruteForce() {
     }
   }, [step]);
 
+  function hasWeakPatterns(password) {
+
+  const lowerPass = password.toLowerCase();
+
+  // forward sequences
+  const numberSequences = [
+    "012","123","234","345","456","567","678","789"
+  ];
+
+  const letterSequences = [
+    "abc","bcd","cde","def","efg","fgh","ghi",
+    "hij","ijk","jkl","klm","lmn","mno","nop",
+    "opq","pqr","qrs","rst","stu","tuv","uvw",
+    "vwx","wxy","xyz"
+  ];
+
+  // reverse sequences
+  const reverseNumberSequences = [
+    "987","876","765","654","543","432","321","210"
+  ];
+
+  const reverseLetterSequences = [
+    "zyx","yxw","xwv","wvu","vut","uts","tsr","srq",
+    "rqp","qpo","pon","onm","nml","mlk","lkj","kji",
+    "jih","ihg","hgf","gfe","fed","edc","dcb","cba"
+  ];
+
+  // repeated characters
+  const repeatedPattern = /(.)\1\1/;
+
+  for (let seq of numberSequences) {
+    if (lowerPass.includes(seq)) return true;
+  }
+
+  for (let seq of reverseNumberSequences) {
+    if (lowerPass.includes(seq)) return true;
+  }
+
+  for (let seq of letterSequences) {
+    if (lowerPass.includes(seq)) return true;
+  }
+
+  for (let seq of reverseLetterSequences) {
+    if (lowerPass.includes(seq)) return true;
+  }
+
+  if (repeatedPattern.test(password)) {
+    return true;
+  }
+
+  return false;
+  }
+
   // password strength checker
   const checkStrength = () => {
-    const strongRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
-    if (strongRegex.test(password)) {
-      setStrength("strong");
-      setStep(5);
-    } else {
-      setStrength("weak");
-    }
+  const strongRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+  if (!strongRegex.test(password)) {
+    setStrength("weak");
+    return;
+  }
+
+  // check predictable patterns
+  if (hasWeakPatterns(password)) {
+    setStrength("weak");
+    return;
+  }
+
+  setStrength("strong");
+  setStep(5);
+  };
+
+  const completeAttack = async () => {
+
+  const userId = localStorage.getItem("userId");
+
+  await axios.post("http://localhost:5000/api/completeAttack",{
+      userId: userId,
+      attackId: 2
+  });
+
+  navigate("/dashboard");
+
   };
 
   return (
@@ -105,7 +181,7 @@ function BruteForce() {
 
             <p className="mb-4">
               The password <b>alex123</b> was cracked in less than
-              a second using a dictionary attack.
+              a minute using a dictionary attack.
             </p>
 
             <p className="mb-6">
@@ -146,8 +222,7 @@ function BruteForce() {
 
             {strength === "weak" && (
               <p className="text-red-400 mt-3">
-                Password is weak. Try including uppercase,
-                lowercase, numbers and symbols.
+                Password is weak. Avoid sequences like 123, abc or repeated characters like 111 or aaa.
               </p>
             )}
           </>
@@ -175,6 +250,12 @@ function BruteForce() {
               className="w-full py-2 bg-cyan-500 text-black rounded"
             >
               Restart Simulation
+            </button>
+            <button
+              onClick={completeAttack}
+              className="mt-10 px-4 py-2 w-full bg-cyan-500 text-black rounded"
+            >
+              Complete Attack
             </button>
           </>
         )}
