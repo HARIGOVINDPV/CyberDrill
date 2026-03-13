@@ -21,6 +21,10 @@ function Sidebar() {
           <NavLink to="/wip">Leaderboard</NavLink>
         </li>
 
+        <li>
+          <NavLink to="/contact">Contact Us</NavLink>
+        </li>
+
       </ul>
     </div>
   );

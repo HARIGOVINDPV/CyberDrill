@@ -103,8 +103,8 @@ function DashboardContent() {
 
         {/* check*/}
         <div className="card">
-          <h3>BruteForce</h3>
-            <button onClick={() => navigate("/bruteforce")}
+          <h3>Trial</h3>
+            <button onClick={() => navigate("/fakeloginattack")}
             className="mt-10 px-4 py-2 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
           >
               Start
@@ -114,6 +114,7 @@ function DashboardContent() {
       </div>
       <div className="py-4">
         <button
+          onClick={() => navigate("/dashboard/scenarios")}
           className="mt-4 px-4 py-0 bg-cyan-950 item-center text-black font-semibold rounded hover:bg-cyan-400 transition"
         >
           View All Challenges

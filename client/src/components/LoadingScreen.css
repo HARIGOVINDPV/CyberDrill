@@ -1,0 +1,13 @@
+.loading-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #07141c; /* CyberDrill dark theme */
+}
+
+.loading-video {
+  width: 200px;
+  height: auto;
+}

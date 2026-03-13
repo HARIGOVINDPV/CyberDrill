@@ -19,7 +19,7 @@ function Login() {
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userId", res.data.userId);;
-      navigate("/dashboard");
+      navigate("/loading");
     } catch (err) {
       alert("Invalid credentials");
     }

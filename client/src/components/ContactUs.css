@@ -1,0 +1,45 @@
+.contact-page{
+  background:#00131d;
+  min-height:100vh;
+  padding:40px;
+  text-align:center;
+  color:#00ffff;
+}
+
+.page-title{
+  margin:30px 0;
+  font-size:32px;
+}
+
+.member-card{
+  border:3px solid #00ffff;
+  border-radius:25px;
+  padding:25px;
+  margin:25px auto;
+  width:60%;
+}
+
+.member-card h2{
+  margin-bottom:20px;
+}
+
+.social-buttons{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.social-buttons a{
+  text-decoration:none;
+  border:2px solid #39e6e6;
+  padding:10px 20px;
+  border-radius:10px;
+  color:#00ffff;
+  transition:0.3s;
+}
+
+.social-buttons a:hover{
+  background:#39e6e6;
+  color:#062c3d;
+}
