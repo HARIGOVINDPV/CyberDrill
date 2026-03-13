@@ -104,7 +104,7 @@ function DashboardContent() {
         {/* check*/}
         <div className="card">
           <h3>Trial</h3>
-            <button onClick={() => navigate("/fakeloginattack")}
+            <button onClick={() => navigate("/attacks")}
             className="mt-10 px-4 py-2 bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
           >
               Start

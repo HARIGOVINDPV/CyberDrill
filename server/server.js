@@ -12,7 +12,7 @@ const SECRET = "cyberdrill_secret";
 const attacks = [
   { id: 1, title: "Spear Phishing", difficulty: "Easy" },
   { id: 2, title: "BruteForce", difficulty: "Easy" },
-  { id: 3, title: "SQL Injection Attack", difficulty: "Hard" }
+  { id: 3, title: "MaliciousAttachment", difficulty: "Hard" }
 ];
 
 // Database setup

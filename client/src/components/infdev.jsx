@@ -1,0 +1,61 @@
+import { useNavigate } from "react-router-dom";
+
+function AttackLauncher() {
+  const navigate = useNavigate();
+
+  const attacks = [
+    {
+      id: 1,
+      name: "Spear Phishing",
+      path: "/spear-phishing"
+    },
+    {
+      id: 2,
+      name: "BruteForce",
+      path: "/bruteforce"
+    },
+    {
+      id: 3,
+      name: "MaliciousAttachment",
+      path: "/maliciousattachment"
+    },
+    {
+      id: 4,
+      name: "USB Drop Attack",
+      path: "/attacks/usb-drop"
+    },
+    {
+      id: 5,
+      name: "Credential Harvesting",
+      path: "/attacks/credential-harvesting"
+    },
+    {
+      id: 6,
+      name: "Insider Data Theft",
+      path: "/attacks/insider-theft"
+    }
+  ];
+
+  return (
+    <div className="attack-launcher">
+
+      <div className="attack-list">
+        {attacks.map((attack) => (
+          <div className="attack-card" key={attack.id}>
+            <h2>{attack.name}</h2>
+            <p>{attack.description}</p>
+
+            <button
+              className=" bg-cyan-500 text-black font-semibold rounded hover:bg-cyan-400 transition"
+              onClick={() => navigate(attack.path)}
+            >
+              Start Attack
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default AttackLauncher;

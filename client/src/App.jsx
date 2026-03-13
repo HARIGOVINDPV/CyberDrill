@@ -13,9 +13,12 @@ import ContactUs from "./components/ContactUs";
 import WorkInProgress from "./pages/WorkInProgress";
 import News from "./pages/News";
 
+//temp
+import AttackLauncher from "./components/infdev";
+
 import SpearPhishing from "./attacks/SpearPhishing";
 import BruteForce from "./attacks/BruteForce";
-import FakeLoginAttack from "./attacks/FakeLoginAttack";
+import MaliciousAttachment from "./Attacks/MaliciousAttachment";
 
 function App() {
   return (
@@ -40,10 +43,13 @@ function App() {
       {/* Other Pages */}
       <Route path="/news" element={<News />} />
 
+      {/*temp*/}
+      <Route path="/attacks" element={<AttackLauncher />} />
+
       {/* Attack Simulations */}
       <Route path="/spear-phishing" element={<SpearPhishing />} />
       <Route path="/bruteforce" element={<BruteForce />} />
-      <Route path="/fakeloginattack" element={<FakeLoginAttack />} />
+      <Route path="/maliciousattachment" element={<MaliciousAttachment />} />
 
       {/* WIP */}
       <Route path="/wip" element={<WorkInProgress />} />

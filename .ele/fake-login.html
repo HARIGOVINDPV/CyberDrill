@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CyberDrill - Scenario 3</title>
+<title>lnstaqram</title>
 
 <style>
 * {
@@ -15,7 +15,7 @@
 
 body {
     margin: 0;
-    min-height: 100vh;
+    min-height: 75vh;
     display: flex;
     flex-direction: column;
     background: linear-gradient(90deg, #0a0f1c, #14233b);
@@ -29,15 +29,17 @@ body {
 /* LEFT HALF */
 .left {
     width: 50%;
+    height:85vh;
     padding: 80px;
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: center;
     background: linear-gradient(135deg, #0c1014, #0c1014);
 }
 
 .left h1 {
-    font-size: 42px;
+    font-size: 30px;
     line-height: 1.4;
 }
 
@@ -52,17 +54,23 @@ body {
     margin-top: 20px;
     color: #cbd5e1;
 }
-
+.logo{
+    position: absolute;
+    top: 35px;
+    left: 40px;
+    width: 70px;
+}
 .simulation-tag {
     margin-top: 30px;
     color: #f87171;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 3px;
 }
 
 /* RIGHT HALF */
 .right {
     width: 50%;
+    height:85vh;
     padding: 80px;
     display: flex;
     flex-direction: column;
@@ -81,7 +89,7 @@ input {
     margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid #2c3e50;
-    background: #1b2a41;
+    background: #152127;
     color: white;
     font-size: 14px;
 }
@@ -94,10 +102,10 @@ input:focus {
 button {
     width: 100%;
     padding: 14px;
-    background: #2563eb;
+    background: #0d3c71;
     border: none;
-    border-radius: 8px;
-    color: white;
+    border-radius: 70px;
+    color: #212f3f;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s ease;
@@ -110,19 +118,86 @@ button:hover {
 .links {
     margin-top: 15px;
     font-size: 13px;
+    justify-content: center;
     color: #94a3b8;
 }
 
 .links a {
-    color: #3b82f6;
+    color: #ffffff;
     text-decoration: none;
+    justify-content: center;
+}
+.links{
+    button {
+    width: 100%;
+    padding: 14px;
+    background: #152127;
+    border-radius: 70px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+button:hover {
+    background: #3a3a3b;
+}
+}
+.fb{
+     button {
+    width: 100%;
+    padding: 14px;
+    background: #152127;
+    border: 1px solid #2c3e50;
+    border-radius: 70px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    
+}
+button:hover {
+    background: #3a3a3b;
+}
+}
+.cna{
+     button {
+    width: 100%;
+    padding: 14px;
+    color: #0077ff;
+    background: #152127;
+    border: 1px solid #0080ff;
+    border-radius: 70px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+button:hover {
+    background: #3a3a3b;
+}
 }
 
-#result {
-    margin-top: 20px;
+.m{
+     button {
+    width: 100%;
+    padding: 14px;
+    color: #ffffff;
+    background: #152127;
+    border-radius: 70px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+button:hover {
+    background: #152127;
+}
+}
+
+footer{
+    text-align:center;
+    padding:77px;
+    background:#0c1014;
+    color:#94a3b8;
+    font-size:14px;
 }
 .promo-img {
-    width: 80%;
+    width: 90%;
     margin-top: 40px;
     border-radius: 12px;
 }
@@ -132,12 +207,16 @@ button:hover {
 
 <body>
 
+<div class="main">
+
 <div class="left">
+    <img src="ig.png" alt="Logo" class="logo">
     <h1>
         See everyday moments from your 
         <span>close friends.</span>
     </h1>
-   <img src="igp.png" alt="App preview" class="promo-img">
+
+    <img src="igp.png" alt="App preview" class="promo-img">
 
     <div class="simulation-tag">
         ⚠ CyberDrill Phishing Simulation
@@ -145,7 +224,7 @@ button:hover {
 </div>
 
 <div class="right">
-    <h2>Log in</h2>
+    <h2>Log in to lntaqram</h2>
 
     <form id="phishForm">
         <input type="text" id="user" placeholder="Mobile number, username or email" required>
@@ -154,35 +233,24 @@ button:hover {
     </form>
 
     <div class="links">
-        <p><a href="#">Forgot password?</a></p>
-        <p style="margin-top:10px;">Don't have an account? <a href="#">Sign up</a></p>
+        <button>Forgotten password?</button>
     </div>
 
-    <p id="result"></p>
+    <div class="fb">
+        <button>Log in With Facebook</button>
+    </div>
+
+    <div class="cna">
+        <button>Create new account</button>
+    </div>
+    <div class="m">
+        <button>Meta</button>
+    </div>
 </div>
 
-<script>
-document.getElementById("phishForm").addEventListener("submit", function(e){
-    e.preventDefault();
-
-    let username = document.getElementById("user").value;
-    let password = document.getElementById("pass").value;
-
-    console.log("Captured (Simulation):");
-    console.log("Username:", username);
-    console.log("Password:", password);
-
-    document.getElementById("result").innerHTML = `
-        <span style="color:#f87171; font-weight:bold;">
-        ⚠ Attack Successful (Simulation)
-        </span><br><br>
-        Credentials were captured in this controlled demo.<br>
-        This shows how phishing pages harvest login data.
-    `;
-});
-</script>
+</div>
 <footer>
-    <p>© 2026 CyberDrill | Phishing Simulation | For Educational Use Only</p>
+    <p>© 2026 CyberDrill Simulation • This page is part of CyberDrill Scenario 3 • Credential Harvesting Simulation</p>
 </footer>
 </body>
 
