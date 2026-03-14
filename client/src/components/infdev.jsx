@@ -53,6 +53,11 @@ function AttackLauncher() {
       id: 10,
       name: "malware-download",
       path: "/malware-download"
+    },
+    {
+      id: 11,
+      name: "ransomware",
+      path: "/ransomware"
     }
     
   ];

@@ -136,8 +136,8 @@ function DashboardContent() {
           </button>
         </div>
         )}
-
-        {/* check*/}
+      
+        {/* check */}{/*
         <div className="card">
           <h3>Trial</h3>
             <button onClick={() => navigate("/attacks")}
@@ -146,7 +146,7 @@ function DashboardContent() {
               Start
             </button>
         </div>
-
+      */}
       </div>
       <div className="py-4">
         <button

@@ -30,6 +30,9 @@ import CredentialStuffing from "./attacks/CredentialStuffing";
 import TyposquattingAttack from "./attacks/TyposquattingAttack";
 import MalwareDownload from "./attacks/MalwareDownload";
 
+//Hard tier attacks
+import RansomwareAttack from "./attacks/RansomwareAttack";
+
 function App() {
   return (
     <Routes>
@@ -70,6 +73,9 @@ function App() {
       <Route path="/credential-stuffing" element={<CredentialStuffing />} />
       <Route path="/typosquatting" element={<TyposquattingAttack />} />
       <Route path="/malware-download" element={<MalwareDownload />} />
+
+      {/*High Tier */}
+      <Route path="/ransomware" element={<RansomwareAttack />} />
 
       {/* WIP */}
       <Route path="/wip" element={<WorkInProgress />} />

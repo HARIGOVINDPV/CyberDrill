@@ -28,7 +28,7 @@ const attacksByTier = {
   ],
 
   hard: [
-    { id: 61, title: "Supply Chain Attack" },
+    { id: 61, title: "ransomware" },
     { id: 62, title: "APT Simulation" },
     { id: 63, title: "Zero Day Exploit" },
     { id: 64, title: "Insider Threat" },
@@ -221,7 +221,7 @@ app.post("/api/completeAttack", (req, res) => {
 
       // Add score for completing attack
       db.run(
-        "UPDATE users1 SET score = score + 100 WHERE id = ?",
+        "UPDATE users1 SET score = score + 50 WHERE id = ?",
         [userId]
       );
 
