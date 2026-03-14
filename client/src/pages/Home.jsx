@@ -4,10 +4,10 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen text-white relative">
+    <div className="min-h-screen text-white relative ">
 
       {/* Background Glow */}
-      <div className="absolute w-[2000px] h-[800px] bg-cyan-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute w-[2000px] h-[800px] bg-cyan-200/10 rounded-full blur-3xl"></div>
 
       {/* Navbar */}
       <nav className="flex justify-between items-center p-6 relative z-10">
@@ -31,6 +31,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="text-center py-24 px-6 relative z-10">
+        
         <h2 className="text-5xl font-bold mb-6">
           Welcome to Cyber<span className="text-cyan-400">Drill</span>
         </h2>

@@ -16,9 +16,12 @@ import News from "./pages/News";
 //temp
 import AttackLauncher from "./components/infdev";
 
+//basic tier attacks
 import SpearPhishing from "./attacks/SpearPhishing";
 import BruteForce from "./attacks/BruteForce";
 import MaliciousAttachment from "./Attacks/MaliciousAttachment";
+import UsbDropAttack from "./attacks/UsbDropAttack";
+import FakeUpdateAttack from "./attacks/FakeUpdateAttack";
 
 function App() {
   return (
@@ -47,9 +50,12 @@ function App() {
       <Route path="/attacks" element={<AttackLauncher />} />
 
       {/* Attack Simulations */}
+      {/* Basic Tier */}
       <Route path="/spear-phishing" element={<SpearPhishing />} />
       <Route path="/bruteforce" element={<BruteForce />} />
       <Route path="/maliciousattachment" element={<MaliciousAttachment />} />
+      <Route path="/usb-drop-attack" element={<UsbDropAttack />} />
+      <Route path="/fake-update" element={<FakeUpdateAttack />} />
 
       {/* WIP */}
       <Route path="/wip" element={<WorkInProgress />} />

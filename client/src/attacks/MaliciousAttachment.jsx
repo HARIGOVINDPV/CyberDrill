@@ -38,7 +38,8 @@ function MaliciousAttachment() {
       return () => clearInterval(interval);
     }
   }, [view]);
-
+  
+  
   const completeAttack = async () => {
 
   const userId = localStorage.getItem("userId");
@@ -207,7 +208,7 @@ function MaliciousAttachment() {
 
       {/* COMPROMISED RESULT */}
       {view === "compromised" && (
-        <div className="bg-cyan-50 p-8 rounded-xl w-[600px] text-center">
+        <div className="bg-blue-200 p-8 rounded-xl w-[600px] text-center">
 
           <h2 className="text-2xl font-bold mb-4">
             Malware Executed!
@@ -260,8 +261,15 @@ function MaliciousAttachment() {
           </p>
 
           <button
+            onClick={() => setView("email")}
+            className="mt-6 bg-cyan-400/20 hover:bg-cyan-600 p-3 rounded font-semibold text-blackd"
+          >
+            Restart Simulation
+          </button>
+
+          <button
             onClick={completeAttack}
-            className="mt-6 px-4 py-2 bg-green-500 text-black font-semibold rounded"
+            className="mt-6 bg-cyan-500 hover:bg-cyan-600 p-3 rounded font-semibold text-black"
             >
             Complete Attack
             </button>

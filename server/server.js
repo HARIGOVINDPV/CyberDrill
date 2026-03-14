@@ -9,11 +9,33 @@ app.use(express.json());
 app.use(cors());
 
 const SECRET = "cyberdrill_secret";
-const attacks = [
-  { id: 1, title: "Spear Phishing", difficulty: "Easy" },
-  { id: 2, title: "BruteForce", difficulty: "Easy" },
-  { id: 3, title: "MaliciousAttachment", difficulty: "Hard" }
-];
+const attacksByTier = {
+
+  basic: [
+    { id: 1, title: "Spear Phishing" },
+    { id: 2, title: "BruteForce" },
+    { id: 3, title: "MaliciousAttachment" },
+    { id: 4, title: "usb-drop-attack" },
+    { id: 5, title: "fake-update" }
+  ],
+
+  intermediate: [
+    { id: 31, title: "Credential Harvesting" },
+    { id: 32, title: "Business Email Compromise" },
+    { id: 33, title: "Watering Hole Attack" },
+    { id: 34, title: "Session Hijacking" },
+    { id: 35, title: "Malware Email" }
+  ],
+
+  hard: [
+    { id: 61, title: "Supply Chain Attack" },
+    { id: 62, title: "APT Simulation" },
+    { id: 63, title: "Zero Day Exploit" },
+    { id: 64, title: "Insider Threat" },
+    { id: 65, title: "Privilege Escalation" }
+  ]
+
+};
 
 // Database setup
 const db = new sqlite3.Database("./cyberdrill.db");
@@ -77,7 +99,8 @@ db.get(
 
       res.json({
         token,
-        userId: user.id
+        userId: user.id,
+        profession: user.profession
       });
     }
   );
@@ -88,22 +111,52 @@ app.get("/api/dashboard/:userId", (req, res) => {
 
   const userId = req.params.userId;
 
-  db.all(
-    "SELECT attack_id FROM progress WHERE user_id = ? AND completed = 1",
+  // first get user's profession
+  db.get(
+    "SELECT profession FROM users1 WHERE id = ?",
     [userId],
-    (err, rows) => {
+    (err, user) => {
 
-      const completed = rows.map(r => r.attack_id);
+      if(err || !user){
+        return res.status(500).json({error:"User not found"});
+      }
 
-      const remaining = attacks.filter(a => !completed.includes(a.id));
+      let tier;
 
-      const currentAttack = remaining[0] || null;
-      const upcomingAttack = remaining[1] || null;
+      if(user.profession === "professional"){
+        tier = "hard";
+      }
+      else if(user.profession === "student"){
+        tier = "intermediate";
+      }
+      else{
+        tier = "basic";
+      }
 
-      res.json({
-        currentAttack,
-        upcomingAttack
-      });
+      const attacks = attacksByTier[tier];
+
+      // now check completed attacks
+      db.all(
+        "SELECT attack_id FROM progress WHERE user_id = ? AND completed = 1",
+        [userId],
+        (err, rows) => {
+
+          const completed = rows.map(r => r.attack_id);
+
+          const remaining = attacks.filter(a => !completed.includes(a.id));
+
+          const currentAttack = remaining[0] || null;
+          const upcomingAttack = remaining[1] || null;
+          const upcoming2Attack = remaining[2] || null;
+
+          res.json({
+            currentAttack,
+            upcomingAttack,
+            upcoming2Attack
+          });
+
+        }
+      );
 
     }
   );

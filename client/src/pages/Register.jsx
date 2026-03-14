@@ -132,7 +132,7 @@ function Register() {
         >
           <option value="student">Student</option>
           <option value="professional">Professional</option>
-          <option value="none">None of Above</option>
+          <option value="common">None of Above</option>
         </select>
 
         {error && (

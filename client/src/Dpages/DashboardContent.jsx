@@ -9,6 +9,8 @@ function DashboardContent() {
   const [news, setNews] = useState([]);
   const [currentAttack,setCurrentAttack] = useState(null)
   const [upcomingAttack,setUpcomingAttack] = useState(null)
+  const [upcoming2Attack,setUpcoming2Attack] = useState(null)
+  const [tier, setTier] = useState("");
 
   useEffect(() => {
     const fetchScore = async () => {
@@ -26,6 +28,7 @@ function DashboardContent() {
 
     fetchScore();
   }, []);
+  
   useEffect(() => {
     fetch("https://api.rss2json.com/v1/api.json?rss_url=https://feeds.feedburner.com/TheHackersNews")
       .then(res => res.json())
@@ -35,22 +38,41 @@ function DashboardContent() {
   }, []);
 
   useEffect(()=>{
-
   const userId = localStorage.getItem("userId")
 
   axios.get(`http://localhost:5000/api/dashboard/${userId}`)
   .then(res=>{
       setCurrentAttack(res.data.currentAttack)
       setUpcomingAttack(res.data.upcomingAttack)
-  })
+      setUpcoming2Attack(res.data.upcoming2Attack)
+  },[tier])
 
   },[])
+
+  useEffect(() => {
+
+  const profession = localStorage.getItem("profession");
+
+  if (profession === "professional") {
+    setTier("hard");
+  } 
+  else if (profession === "student") {
+    setTier("intermediate");
+  } 
+  else {
+    setTier("basic");
+  }
+
+}, []);
 
   return (
     <div className="content">
 
       <h2 className="text-xl " >Welcome to Cyber<span className="text-cyan-400">Drill!</span></h2>
       <h2 className="text-xl text-cyan-400">Score: {score}</h2>
+      <h2 className="text-sm text-gray-400">
+        Training Tier: <span className="text-cyan-400">{tier}</span>
+      </h2>
       <p className="subtitle">
         Simulated Cyber Attack Training and Defense
       </p>
@@ -100,6 +122,20 @@ function DashboardContent() {
           </button>
         </div>
         )}       
+
+        {upcoming2Attack && (
+        <div className="card">
+          <h3>Upcoming 2 Attack</h3>
+          <p>{upcoming2Attack.title}</p>
+
+          <button
+            disabled
+            className="mt-10 px-4 py-2 bg-gray-700 text-gray-300 font-semibold rounded"
+          >
+            Locked
+          </button>
+        </div>
+        )}
 
         {/* check*/}
         <div className="card">

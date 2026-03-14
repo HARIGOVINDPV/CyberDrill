@@ -22,12 +22,12 @@ function AttackLauncher() {
     {
       id: 4,
       name: "USB Drop Attack",
-      path: "/attacks/usb-drop"
+      path: "/usb-drop-attack"
     },
     {
       id: 5,
-      name: "Credential Harvesting",
-      path: "/attacks/credential-harvesting"
+      name: "Fake Update",
+      path: "/fake-update"
     },
     {
       id: 6,
