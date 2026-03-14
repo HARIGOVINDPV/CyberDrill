@@ -20,11 +20,11 @@ const attacksByTier = {
   ],
 
   intermediate: [
-    { id: 31, title: "Credential Harvesting" },
-    { id: 32, title: "Business Email Compromise" },
-    { id: 33, title: "Watering Hole Attack" },
-    { id: 34, title: "Session Hijacking" },
-    { id: 35, title: "Malware Email" }
+    { id: 31, title: "fake-login" },
+    { id: 32, title: "public-wifi-mitm" },
+    { id: 33, title: "credential-stuffing" },
+    { id: 34, title: "typosquatting" },
+    { id: 35, title: "malware-download" }
   ],
 
   hard: [

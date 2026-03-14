@@ -23,6 +23,13 @@ import MaliciousAttachment from "./Attacks/MaliciousAttachment";
 import UsbDropAttack from "./attacks/UsbDropAttack";
 import FakeUpdateAttack from "./attacks/FakeUpdateAttack";
 
+//Intermediate tier attacks
+import FakeLoginAttack from "./attacks/FakeLoginAttack";
+import PublicWifiMITM from "./attacks/PublicWifiMITM";
+import CredentialStuffing from "./attacks/CredentialStuffing";
+import TyposquattingAttack from "./attacks/TyposquattingAttack";
+import MalwareDownload from "./attacks/MalwareDownload";
+
 function App() {
   return (
     <Routes>
@@ -56,6 +63,13 @@ function App() {
       <Route path="/maliciousattachment" element={<MaliciousAttachment />} />
       <Route path="/usb-drop-attack" element={<UsbDropAttack />} />
       <Route path="/fake-update" element={<FakeUpdateAttack />} />
+
+      {/*Intermediate Tier */}
+      <Route path="/fake-login" element={<FakeLoginAttack />} />
+      <Route path="/public-wifi-mitm" element={<PublicWifiMITM />} />
+      <Route path="/credential-stuffing" element={<CredentialStuffing />} />
+      <Route path="/typosquatting" element={<TyposquattingAttack />} />
+      <Route path="/malware-download" element={<MalwareDownload />} />
 
       {/* WIP */}
       <Route path="/wip" element={<WorkInProgress />} />

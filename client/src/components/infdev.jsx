@@ -31,9 +31,30 @@ function AttackLauncher() {
     },
     {
       id: 6,
-      name: "Insider Data Theft",
-      path: "/attacks/insider-theft"
+      name: "fake-login",
+      path: "/fake-login"
+    },
+    {
+      id: 7,
+      name: "public-wifi-mitm",
+      path: "/public-wifi-mitm"
+    },
+    {
+      id: 8,
+      name: "credential-stuffing",
+      path: "/credential-stuffing"
+    },
+    {
+      id: 9,
+      name: "typosquatting",
+      path: "/typosquatting"
+    },
+    {
+      id: 10,
+      name: "malware-download",
+      path: "/malware-download"
     }
+    
   ];
 
   return (
