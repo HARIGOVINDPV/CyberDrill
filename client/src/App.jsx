@@ -33,6 +33,7 @@ import MalwareDownload from "./attacks/MalwareDownload";
 //Hard tier attacks
 import RansomwareAttack from "./attacks/RansomwareAttack";
 import InsiderDataTheft from "./attacks/InsiderDataTheft";
+import DDoSAttack from "./attacks/DDoSAttack";
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
       {/*Hard Tier */}
       <Route path="/ransomware" element={<RansomwareAttack />} />
       <Route path="/insider-data-theft" element={<InsiderDataTheft />} />
+      <Route path="/ddos" element={<DDoSAttack />} />
       
       {/* WIP */}
       <Route path="/wip" element={<WorkInProgress />} />

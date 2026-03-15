@@ -31,10 +31,12 @@ function Scenarios() {
     });
   };
 
-  const formatTitle = (title) =>
-  title
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
+  const formatTitle = (title) => {
+    return title
+      .replace(/-/g, " ")
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  };
 
   return (
     <div className="scenarios-page">
@@ -54,26 +56,24 @@ function Scenarios() {
 
       <div className="scenario-grid">
         {scenarios.map((scenario) => (
-          <div
-            key={scenario.id}
-            className={`scenario-card ${scenario.status}`}
-          >
+          <div key={scenario.id} className={`scenario-card ${scenario.status}`}>
             <div className="card-top">
               <h3>{formatTitle(scenario.title)}</h3>
-            </div>
-            <div className="card-top">
               <span className={`status-badge ${scenario.status}`}>
                 {scenario.status}
               </span>
             </div>
 
-            <div className="card-body">
-              <p>
-                <strong>Tier:</strong> {scenario.tier}
-              </p>
-              <p>
-                <strong>Points:</strong> {scenario.points}
-              </p>
+            <div className="card-middle">
+              <div className="card-info-box">
+                <span className="label">Tier</span>
+                <span className="value">{scenario.tier}</span>
+              </div>
+
+              <div className="card-info-box">
+                <span className="label">Points</span>
+                <span className="value">{scenario.points}</span>
+              </div>
             </div>
 
             <button
