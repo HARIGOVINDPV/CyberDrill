@@ -34,6 +34,8 @@ import MalwareDownload from "./attacks/MalwareDownload";
 import RansomwareAttack from "./attacks/RansomwareAttack";
 import InsiderDataTheft from "./attacks/InsiderDataTheft";
 import DDoSAttack from "./attacks/DDoSAttack";
+import DataBreachInvestigation from "./attacks/DataBreachInvestigation";
+
 
 function App() {
   return (
@@ -80,6 +82,7 @@ function App() {
       <Route path="/ransomware" element={<RansomwareAttack />} />
       <Route path="/insider-data-theft" element={<InsiderDataTheft />} />
       <Route path="/ddos" element={<DDoSAttack />} />
+      <Route path="/data-breach" element={<DataBreachInvestigation />} />
       
       {/* WIP */}
       <Route path="/wip" element={<WorkInProgress />} />

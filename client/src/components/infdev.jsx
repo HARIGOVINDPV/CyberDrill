@@ -68,6 +68,11 @@ function AttackLauncher() {
       id: 13,
       name: "ddos",
       path: "/ddos"
+    },
+    {
+      id: 14,
+      name: "data-breach",
+      path: "/data-breach"
     }
     
   ];

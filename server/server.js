@@ -30,8 +30,7 @@ const attacksByTier = {
     { id: 61, title: "ransomware", points: 100, route: "/ransomware" },
     { id: 62, title: "insider-data-theft", points: 100, route: "/insider-data-theft" },
     { id: 63, title: "ddos", points: 105, route: "/ddos" },
-    { id: 64, title: "Insider Threat", points: 105, route: "/insider-threat" },
-    { id: 65, title: "Privilege Escalation", points: 110, route: "/privilege-escalation" }
+    { id: 64, title: "data-breach", points: 105, route: "/data-breach" },
   ]
 };
 

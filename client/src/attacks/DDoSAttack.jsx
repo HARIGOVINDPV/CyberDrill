@@ -1,7 +1,11 @@
+import SimulationNavbar from "../components/SimulationNavbar";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function DDoSAttack() {
-
+  const navigate = useNavigate();
+  const [attackOutcome, setAttackOutcome] = useState("");
   const [requests, setRequests] = useState(300);
   const [cpu, setCpu] = useState(20);
   const [status, setStatus] = useState("Normal");
@@ -50,38 +54,70 @@ function DDoSAttack() {
     setStatus("Firewall Rules Applied");
     setRequests(1200);
     setCpu(40);
+
     setResult(
-      "Firewall blocked suspicious IP ranges. Malicious traffic reduced."
+      "Firewall blocked some suspicious IP ranges, but traffic is still high."
     );
+
+    setAttackOutcome("partial");
   };
 
   const rateLimit = () => {
     setStatus("Rate Limiting Enabled");
-    setRequests(500);
-    setCpu(30);
+    setRequests(400);
+    setCpu(25);
+
     setResult(
-      "Rate limiting applied. Server is stabilizing and legitimate users can access the service."
+      "Rate limiting successfully mitigated the DDoS attack. Server traffic is stable."
     );
+
+    setAttackOutcome("success");
   };
 
   const ignoreTraffic = () => {
     setStatus("Server Overloaded");
     setRequests(15000);
     setCpu(98);
+
     setResult(
-      "Server crashed due to excessive traffic. Legitimate users cannot access the service."
+      "The server crashed due to excessive traffic. Legitimate users cannot access the service."
     );
+
+    setAttackOutcome("fail");
   };
 
   const analyzeTraffic = () => {
     setResult(
-      "Analysis complete. Botnet traffic detected from multiple geographic regions performing HTTP flood attack."
+      "Traffic analysis shows a botnet performing an HTTP flood attack from multiple regions."
     );
   };
 
+  const resetAttack = () => {
+    setRequests(300);
+    setCpu(20);
+    setStatus("Normal");
+    setLogs([]);
+    setResult("");
+    setAttackStarted(false);
+    setAttackOutcome("");
+  };
 
+  const completeAttack = async () => {
+
+    const userId = localStorage.getItem("userId");
+
+    await axios.post("http://localhost:5000/api/completeAttack",{
+        userId: userId,
+        attackId: 63
+    });
+
+    navigate("/dashboard");
+
+  };
 
   return (
+    <>
+    <SimulationNavbar />
     <div className="min-h-screen text-white p-8">
 
       <h1 className="text-3xl font-bold mb-4 text-red-400">
@@ -150,21 +186,21 @@ function DDoSAttack() {
 
           <button
             onClick={rateLimit}
-            className="bg-green-600 px-5 py-2 rounded hover:bg-green-700"
+            className="bg-blue-600 px-5 py-2 rounded hover:bg-blue-700"
           >
             Apply Rate Limiting
           </button>
 
           <button
             onClick={ignoreTraffic}
-            className="bg-red-600 px-5 py-2 rounded hover:bg-red-700"
+            className="bg-blue-600 px-5 py-2 rounded hover:bg-blue-700"
           >
             Ignore Traffic
           </button>
 
           <button
             onClick={analyzeTraffic}
-            className="bg-purple-600 px-5 py-2 rounded hover:bg-purple-700"
+            className="bg-blue-600 px-5 py-2 rounded hover:bg-blue-700"
           >
             Analyze Traffic
           </button>
@@ -179,10 +215,33 @@ function DDoSAttack() {
         <div className="bg-gray-900 p-6 border border-cyan-500 rounded-lg mt-4">
           <h2 className="text-xl mb-2 text-cyan-400">Result</h2>
           <p>{result}</p>
+
+          <div className="mt-4 flex gap-4">
+
+            {attackOutcome === "success" && (
+              <button
+                onClick={completeAttack}
+                className="mt-6 px-4 py-2 bg-green-500 text-black font-semibold rounded"
+              >
+                Complete Attack
+              </button>
+            )}
+
+            {(attackOutcome === "fail" || attackOutcome === "partial") && (
+              <button
+                onClick={resetAttack}
+                className="bg-red-600 px-5 py-2 rounded hover:bg-red-700"
+              >
+                Reset Attack
+              </button>
+            )}
+
+          </div>
         </div>
       )}
 
     </div>
+    </>
   );
 }
 
