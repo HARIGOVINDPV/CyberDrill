@@ -19,7 +19,7 @@ import AttackLauncher from "./components/infdev";
 //basic tier attacks
 import SpearPhishing from "./attacks/SpearPhishing";
 import BruteForce from "./attacks/BruteForce";
-import MaliciousAttachment from "./Attacks/MaliciousAttachment";
+import MaliciousAttachment from "./attacks/MaliciousAttachment";
 import UsbDropAttack from "./attacks/UsbDropAttack";
 import FakeUpdateAttack from "./attacks/FakeUpdateAttack";
 
@@ -32,6 +32,7 @@ import MalwareDownload from "./attacks/MalwareDownload";
 
 //Hard tier attacks
 import RansomwareAttack from "./attacks/RansomwareAttack";
+import InsiderDataTheft from "./attacks/InsiderDataTheft";
 
 function App() {
   return (
@@ -74,11 +75,12 @@ function App() {
       <Route path="/typosquatting" element={<TyposquattingAttack />} />
       <Route path="/malware-download" element={<MalwareDownload />} />
 
-      {/*Intermediate Tier */}
-      <Route path="/fake-login" element={<FakeLoginAttack />} />
+      {/*Hard Tier */}
+      <Route path="/ransomware" element={<RansomwareAttack />} />
+      <Route path="/insider-data-theft" element={<InsiderDataTheft />} />
       
       {/* WIP */}
-      <Route path="/ransomware" element={<RansomwareAttack />} />
+      <Route path="/wip" element={<WorkInProgress />} />
 
     </Routes>
   );

@@ -58,6 +58,11 @@ function AttackLauncher() {
       id: 11,
       name: "ransomware",
       path: "/ransomware"
+    },
+    {
+      id: 12,
+      name: "insider-data-theft",
+      path: "/insider-data-theft"
     }
     
   ];

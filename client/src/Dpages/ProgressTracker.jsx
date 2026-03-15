@@ -6,7 +6,7 @@ function ProgressTracker() {
   const [loading, setLoading] = useState(true);
 
   // ✅ Edit this whenever you want to change the total possible score
-  const TOTAL_SCORE = 860;
+  const TOTAL_SCORE = 750;
 
   useEffect(() => {
     const fetchUserScore = async () => {
