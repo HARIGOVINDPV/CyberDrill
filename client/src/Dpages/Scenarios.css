@@ -1,0 +1,156 @@
+.scenarios-page {
+  min-height: 100%;
+  padding: 30px;
+  background: linear-gradient(135deg, #07111f, #0b1d33);
+  color: #ffffff;
+}
+
+.scenarios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  gap: 15px;
+}
+
+.scenarios-header h2 {
+  font-size: 32px;
+  margin: 0;
+  color: #44d9e6;
+}
+
+.scenarios-subtitle {
+  margin-top: 8px;
+  color: #b8c7d9;
+  font-size: 15px;
+}
+
+.scenarios-info {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.info-badge {
+  background: rgba(68, 217, 230, 0.12);
+  border: 1px solid rgba(68, 217, 230, 0.35);
+  color: #44d9e6;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.scenario-card {
+  background: rgba(10, 25, 47, 0.95);
+  border: 1px solid rgba(68, 217, 230, 0.18);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.scenario-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.card-top h3 {
+  margin: 0;
+  font-size: 22px;
+  color: #ffffff;
+}
+
+.card-body p {
+  margin: 10px 0;
+  font-size: 15px;
+  color: #d6e2f0;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  text-transform: capitalize;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-badge.completed {
+  background: rgba(46, 204, 113, 0.18);
+  color: #2ecc71;
+}
+
+.status-badge.unlocked {
+  background: rgba(68, 217, 230, 0.16);
+  color: #44d9e6;
+}
+
+.status-badge.locked {
+  background: rgba(255, 99, 132, 0.14);
+  color: #ff7b93;
+}
+
+.scenario-btn {
+  margin-top: 18px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.scenario-btn.unlocked {
+  background: linear-gradient(90deg, #00c6d7, #007b8a);
+  color: white;
+}
+
+.scenario-btn.unlocked:hover {
+  opacity: 0.92;
+}
+
+.scenario-btn.completed {
+  background: linear-gradient(90deg, #18b86a, #0d8a4b);
+  color: white;
+}
+
+.scenario-btn.completed:hover {
+  opacity: 0.92;
+}
+
+.scenario-btn.locked {
+  background: #2a3547;
+  color: #8c9aad;
+  cursor: not-allowed;
+}
+
+.scenario-card.completed {
+  border-left: 5px solid #2ecc71;
+}
+
+.scenario-card.unlocked {
+  border-left: 5px solid #44d9e6;
+}
+
+.scenario-card.locked {
+  border-left: 5px solid #ff7b93;
+  opacity: 0.9;
+}

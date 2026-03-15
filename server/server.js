@@ -10,31 +10,29 @@ app.use(cors());
 
 const SECRET = "cyberdrill_secret";
 const attacksByTier = {
-
   basic: [
-    { id: 1, title: "Spear Phishing" },
-    { id: 2, title: "BruteForce" },
-    { id: 3, title: "MaliciousAttachment" },
-    { id: 4, title: "usb-drop-attack" },
-    { id: 5, title: "fake-update" }
+    { id: 1, title: "Spear Phishing", points: 10, route: "/spear-phishing" },
+    { id: 2, title: "BruteForce", points: 10, route: "/bruteforce" },
+    { id: 3, title: "MaliciousAttachment", points: 15, route: "/malicious-attachment" },
+    { id: 4, title: "usb-drop-attack", points: 15, route: "/usb-drop-attack" },
+    { id: 5, title: "fake-update", points: 20, route: "/fake-update" }
   ],
 
   intermediate: [
-    { id: 31, title: "fake-login" },
-    { id: 32, title: "public-wifi-mitm" },
-    { id: 33, title: "credential-stuffing" },
-    { id: 34, title: "typosquatting" },
-    { id: 35, title: "malware-download" }
+    { id: 31, title: "fake-login", points: 50, route: "/fake-login" },
+    { id: 32, title: "public-wifi-mitm", points: 50, route: "/public-wifi-mitm" },
+    { id: 33, title: "credential-stuffing", points: 55, route: "/credential-stuffing" },
+    { id: 34, title: "typosquatting", points: 55, route: "/typosquatting" },
+    { id: 35, title: "malware-download", points: 60, route: "/malware-download" }
   ],
 
   hard: [
-    { id: 61, title: "ransomware" },
-    { id: 62, title: "APT Simulation" },
-    { id: 63, title: "Zero Day Exploit" },
-    { id: 64, title: "Insider Threat" },
-    { id: 65, title: "Privilege Escalation" }
+    { id: 61, title: "ransomware", points: 100, route: "/ransomware" },
+    { id: 62, title: "APT Simulation", points: 100, route: "/apt-simulation" },
+    { id: 63, title: "Zero Day Exploit", points: 105, route: "/zero-day-exploit" },
+    { id: 64, title: "Insider Threat", points: 105, route: "/insider-threat" },
+    { id: 65, title: "Privilege Escalation", points: 110, route: "/privilege-escalation" }
   ]
-
 };
 
 // Database setup
@@ -183,6 +181,7 @@ app.get("/api/score", (req, res) => {
     res.status(401).json({ error: "Invalid token" });
   }
 });
+
 // Update score
 app.post("/api/score", (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
@@ -207,28 +206,258 @@ app.post("/api/score", (req, res) => {
 });
 
 app.post("/api/completeAttack", (req, res) => {
-
   const { userId, attackId } = req.body;
 
-  db.run(
-    "INSERT INTO progress (user_id, attack_id, completed) VALUES (?, ?, 1)",
-    [userId, attackId],
-    function(err){
+  // combine all attacks into one array
+  const allAttacks = [
+    ...attacksByTier.basic,
+    ...attacksByTier.intermediate,
+    ...attacksByTier.hard
+  ];
 
-      if(err){
-        return res.status(500).json({error:"Failed to save progress"});
+  // find the attack by id
+  const attack = allAttacks.find(a => a.id === Number(attackId));
+
+  if (!attack) {
+    return res.status(404).json({ error: "Attack not found" });
+  }
+
+  const points = attack.points;
+
+  db.get(
+    "SELECT * FROM progress WHERE user_id = ? AND attack_id = ?",
+    [userId, attackId],
+    (err, existing) => {
+      if (err) {
+        return res.status(500).json({ error: "Database error" });
       }
 
-      // Add score for completing attack
-      db.run(
-        "UPDATE users1 SET score = score + 50 WHERE id = ?",
-        [userId]
-      );
+      if (existing) {
+        return res.json({
+          message: "Attack already completed, no extra score given",
+          pointsAdded: 0
+        });
+      }
 
-      res.json({message:"Attack completed and score updated"});
+      db.run(
+        "INSERT INTO progress (user_id, attack_id, completed) VALUES (?, ?, 1)",
+        [userId, attackId],
+        function (err) {
+          if (err) {
+            return res.status(500).json({ error: "Failed to save progress" });
+          }
+
+          db.run(
+            "UPDATE users1 SET score = score + ? WHERE id = ?",
+            [points, userId],
+            function (err) {
+              if (err) {
+                return res.status(500).json({
+                  error: "Progress saved but score update failed"
+                });
+              }
+
+              res.json({
+                message: "Attack completed and score updated",
+                pointsAdded: points
+              });
+            }
+          );
+        }
+      );
     }
   );
+});
 
+app.get("/api/checkUpgrade/:userId", (req, res) => {
+  const userId = req.params.userId;
+
+  db.get(
+    "SELECT profession FROM users1 WHERE id = ?",
+    [userId],
+    (err, user) => {
+      if (err || !user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      let currentTier;
+      let nextProfession = null;
+      let nextTier = null;
+
+      if (user.profession === "common") {
+        currentTier = "basic";
+        nextProfession = "student";
+        nextTier = "intermediate";
+      } else if (user.profession === "student") {
+        currentTier = "intermediate";
+        nextProfession = "professional";
+        nextTier = "hard";
+      } else {
+        currentTier = "hard";
+      }
+
+      if (currentTier === "hard") {
+        return res.json({
+          canUpgrade: false,
+          message: "Already at highest tier"
+        });
+      }
+
+      const currentAttackIds = attacksByTier[currentTier].map(a => a.id);
+
+      db.all(
+        "SELECT attack_id FROM progress WHERE user_id = ? AND completed = 1",
+        [userId],
+        (err, rows) => {
+          if (err) {
+            return res.status(500).json({ error: "Failed to fetch progress" });
+          }
+
+          const completedIds = rows.map(r => r.attack_id);
+          const completedCurrentTier = currentAttackIds.filter(id => completedIds.includes(id));
+
+          const canUpgrade = completedCurrentTier.length === currentAttackIds.length;
+
+          res.json({
+            canUpgrade,
+            currentTier,
+            nextTier,
+            nextProfession
+          });
+        }
+      );
+    }
+  );
+});
+
+app.post("/api/upgradeTier", (req, res) => {
+  const { userId } = req.body;
+
+  db.get(
+    "SELECT profession FROM users1 WHERE id = ?",
+    [userId],
+    (err, user) => {
+      if (err || !user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      let currentTier;
+      let newProfession = null;
+      let upgradedTier = null;
+
+      if (user.profession === "common") {
+        currentTier = "basic";
+        newProfession = "student";
+        upgradedTier = "intermediate";
+      } else if (user.profession === "student") {
+        currentTier = "intermediate";
+        newProfession = "professional";
+        upgradedTier = "hard";
+      } else {
+        return res.status(400).json({ error: "Already at highest tier" });
+      }
+
+      const currentAttackIds = attacksByTier[currentTier].map(a => a.id);
+
+      db.all(
+        "SELECT attack_id FROM progress WHERE user_id = ? AND completed = 1",
+        [userId],
+        (err, rows) => {
+          if (err) {
+            return res.status(500).json({ error: "Failed to fetch progress" });
+          }
+
+          const completedIds = rows.map(r => r.attack_id);
+          const completedCurrentTier = currentAttackIds.filter(id => completedIds.includes(id));
+
+          if (completedCurrentTier.length !== currentAttackIds.length) {
+            return res.status(400).json({ error: "Complete all attacks in this tier first" });
+          }
+
+          db.run(
+            "UPDATE users1 SET profession = ? WHERE id = ?",
+            [newProfession, userId],
+            function (err) {
+              if (err) {
+                return res.status(500).json({ error: "Failed to upgrade tier" });
+              }
+
+              res.json({
+                message: `Upgraded successfully to ${upgradedTier}`,
+                profession: newProfession,
+                tier: upgradedTier
+              });
+            }
+          );
+        }
+      );
+    }
+  );
+});
+
+app.get("/api/scenarios/:userId", (req, res) => {
+  const userId = req.params.userId;
+
+  db.get(
+    "SELECT profession FROM users1 WHERE id = ?",
+    [userId],
+    (err, user) => {
+      if (err || !user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      let tier;
+
+      if (user.profession === "professional") {
+        tier = "hard";
+      } else if (user.profession === "student") {
+        tier = "intermediate";
+      } else {
+        tier = "basic";
+      }
+
+      const attacks = attacksByTier[tier];
+
+      db.all(
+        "SELECT attack_id FROM progress WHERE user_id = ? AND completed = 1",
+        [userId],
+        (err, rows) => {
+          if (err) {
+            return res.status(500).json({ error: "Failed to fetch progress" });
+          }
+
+          const completedIds = rows.map(row => row.attack_id);
+
+          const scenarios = attacks.map((attack, index) => {
+            let status = "locked";
+
+            if (completedIds.includes(attack.id)) {
+              status = "completed";
+            } else {
+              const previousAttack = attacks[index - 1];
+
+              if (index === 0 || completedIds.includes(previousAttack.id)) {
+                status = "unlocked";
+              }
+            }
+
+            return {
+              ...attack,
+              tier,
+              profession: user.profession,
+              status
+            };
+          });
+
+          res.json({
+            profession: user.profession,
+            tier,
+            scenarios
+          });
+        }
+      );
+    }
+  );
 });
 
 app.listen(5000, () => {
