@@ -74,11 +74,11 @@ function App() {
       <Route path="/typosquatting" element={<TyposquattingAttack />} />
       <Route path="/malware-download" element={<MalwareDownload />} />
 
-      {/*High Tier */}
-      <Route path="/ransomware" element={<RansomwareAttack />} />
-
+      {/*Intermediate Tier */}
+      <Route path="/fake-login" element={<FakeLoginAttack />} />
+      
       {/* WIP */}
-      <Route path="/wip" element={<WorkInProgress />} />
+      <Route path="/ransomware" element={<RansomwareAttack />} />
 
     </Routes>
   );

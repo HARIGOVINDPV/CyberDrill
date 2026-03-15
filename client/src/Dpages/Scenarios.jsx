@@ -60,6 +60,8 @@ function Scenarios() {
           >
             <div className="card-top">
               <h3>{formatTitle(scenario.title)}</h3>
+            </div>
+            <div className="card-top">
               <span className={`status-badge ${scenario.status}`}>
                 {scenario.status}
               </span>

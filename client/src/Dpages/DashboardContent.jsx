@@ -200,6 +200,7 @@ function DashboardContent() {
             </button>
           </div>
         )}
+        
         <div className="card">
           <h2>Trial</h2>
           <button
@@ -209,6 +210,7 @@ function DashboardContent() {
             attacks
           </button>
         </div>
+      
       </div>
 
       <div className="py-4">
